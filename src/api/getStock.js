@@ -1,20 +1,27 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/stock";
+// const API_URL = "http://localhost:5000/api/stock";
 
-// Get stocks with search and sort functionality
-export const getStocks = async (search = "", sort = "") => {
-  if (search && sort) {
-    console.log("search & sort");
+export const getStocks = async (
+  search = "",
+  sort = "",
+  startDate = "",
+  endDate = ""
+) => {
+  try {
+    const params = new URLSearchParams();
+
+    if (search) params.append("search", search);
+    if (sort) params.append("sort", sort);
+    if (startDate) params.append("startDate", startDate);
+    if (endDate) params.append("endDate", endDate);
+
     const response = await axios.get(
-      `${API_URL}?search=${search}&sort=${sort}`
+      `http://localhost:5000/api/stock?${params.toString()}`
     );
     return response.data;
-  } else {
-    console.log("nothing");
-    const response = await axios.get(`${API_URL}`);
-    return response.data;
+  } catch (error) {
+    console.error("Error fetching stocks:", error);
+    return [];
   }
 };
-
-// Add more API functions (createStock, updateStock, deleteStock) as needed

@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { deleteStock } from "../api/deleteStock";
 import { getStocks } from "../api/getStock";
-// import EditProductForm from "./EditProductForm";
 
 const StockList = ({ reload, onEditProduct }) => {
   const [stocks, setStocks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortTerm, setSortTerm] = useState("");
-
-  // const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // const handleEdit = (product) => {
-  //   setSelectedProduct(product); // Open the edit form with product data
-  // };
+  const [startDate, setStartDate] = useState(""); // State for start date
+  const [endDate, setEndDate] = useState(""); // State for end date
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -27,30 +22,53 @@ const StockList = ({ reload, onEditProduct }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStocks(searchTerm, sortTerm);
+      const data = await getStocks(searchTerm, sortTerm, startDate, endDate);
       setStocks(data);
     };
     fetchData();
-  }, [searchTerm, sortTerm, reload]); // Now listening for reload changes
+  }, [searchTerm, sortTerm, startDate, endDate, reload]); // Now listening for date range changes
+
+  console.log(sortTerm);
 
   return (
     <div>
       <h1>Stock List</h1>
+
+      {/* Search input */}
       <input
         type="text"
         placeholder="Search by name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
+      {/* Sorting dropdown */}
       <select onChange={(e) => setSortTerm(e.target.value)}>
-        <option value="" disabled>
-          Sort by
-        </option>
+        <option value="">Sort by</option>
         <option value="name">Name</option>
         <option value="price">Price</option>
         <option value="expiryDate">Expiry Date</option>
       </select>
 
+      {/* Date range inputs */}
+      {sortTerm === "expiryDate" && (
+        <>
+          <label>Start Date:</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          <label>End Date:</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </>
+      )}
+
+      {/* Stock table */}
       <table>
         <thead>
           <tr>
@@ -59,6 +77,7 @@ const StockList = ({ reload, onEditProduct }) => {
             <th>Quantity</th>
             <th>Price</th>
             <th>Expiry Date</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
