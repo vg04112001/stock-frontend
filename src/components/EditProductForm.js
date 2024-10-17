@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { updateStock } from "../api/updateStock";
+import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 const EditProductForm = ({ product, onProductEdited }) => {
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
+    batchNo: "",
+    mfgDate: "",
+    expiryDate: "",
+    company: "",
+    wholeSalerName: "",
+    debitMemoDate: "",
+    challenNo: "",
     quantity: "",
     price: "",
-    expiryDate: "",
   });
+  const navigate = useNavigate();
 
   // Pre-fill form data with the selected product
   useEffect(() => {
     if (product) {
       setFormData({
         name: product.name,
-        category: product.category,
+        batchNo: product.batchNo,
+        mfgDate: product.mfgDate,
+        expiryDate: product.expiryDate,
+        company: product.company,
+        wholeSalerName: product.wholeSalerName,
+        challenNo: product.challenNo,
+        debitMemoDate: product.debitMemoDate,
         quantity: product.quantity,
         price: product.price,
-        expiryDate: new Date(product.expiryDate).toISOString().split("T")[0],
       });
     }
   }, [product]);
@@ -38,7 +51,8 @@ const EditProductForm = ({ product, onProductEdited }) => {
     try {
       // Send updated data to backend
       await updateStock(product._id, formData);
-      onProductEdited(); // Trigger reload of product list
+      // onProductEdited(); // Trigger reload of product list
+      navigate("/");
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -46,58 +60,86 @@ const EditProductForm = ({ product, onProductEdited }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Edit Product</h2>
-      <div>
-        <label>Product Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Category:</label>
-        <input
-          type="text"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Quantity:</label>
-        <input
-          type="number"
-          name="quantity"
-          value={formData.quantity}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Price:</label>
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Expiry Date:</label>
-        <input
-          type="date"
-          name="expiryDate"
-          value={formData.expiryDate}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button type="submit">Update Product</button>
+      <h2 className="p-2 font-bold text-red-500">Edit Product</h2>
+      <Input
+        label={"Product Name:"}
+        name="name"
+        value={formData.name}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Batch No:"}
+        name="batchNo"
+        value={formData.batchNo}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"MFG Date:"}
+        type="date"
+        name="mfgDate"
+        value={formData.mfgDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Expiry Date:"}
+        type="date"
+        name="expiryDate"
+        value={formData.expiryDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Company Name:"}
+        name="company"
+        value={formData.company}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"WholeSaler Name:"}
+        name="wholeSalerName"
+        value={formData.wholeSalerName}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"DebitMemo Date:"}
+        type="date"
+        name="debitMemoDate"
+        value={formData.debitMemoDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Challen No:"}
+        name="challenNo"
+        value={formData.challenNo}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Quantity:"}
+        type="number"
+        name="quantity"
+        value={formData.quantity}
+        handleChange={handleChange}
+        min="1"
+        max="1000"
+      />
+      <Input
+        label={"Price:"}
+        type="number"
+        name="price"
+        value={formData.price}
+        handleChange={handleChange}
+        min="1"
+      />
+
+      <button type="submit" className="bg-green-600 rounded-full p-2">
+        Edit Product
+      </button>
+      <button
+        onClick={() => navigate("/")}
+        type="submit"
+        className="bg-orange-600 rounded-full p-2"
+      >
+        Cancel
+      </button>
     </form>
   );
 };

@@ -6,10 +6,15 @@ import Input from "./Input";
 const AddProductForm = ({ onProductAdded }) => {
   const [formData, setFormData] = useState({
     name: "",
-    category: "",
+    batchNo: "",
+    mfgDate: "",
+    expiryDate: "",
+    company: "",
+    wholeSalerName: "",
+    debitMemoDate: "",
+    challenNo: "",
     quantity: "",
     price: "",
-    expiryDate: "",
   });
 
   const navigate = useNavigate();
@@ -45,9 +50,48 @@ const AddProductForm = ({ onProductAdded }) => {
         handleChange={handleChange}
       />
       <Input
-        label={"Category:"}
-        name="category"
-        value={formData.category}
+        label={"Batch No:"}
+        name="batchNo"
+        value={formData.batchNo}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"MFG Date:"}
+        type="date"
+        name="mfgDate"
+        value={formData.mfgDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Expiry Date:"}
+        type="date"
+        name="expiryDate"
+        value={formData.expiryDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Company Name:"}
+        name="company"
+        value={formData.company}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"WholeSaler Name:"}
+        name="wholeSalerName"
+        value={formData.wholeSalerName}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"DebitMemo Date:"}
+        type="date"
+        name="debitMemoDate"
+        value={formData.debitMemoDate}
+        handleChange={handleChange}
+      />
+      <Input
+        label={"Challen No:"}
+        name="challenNo"
+        value={formData.challenNo}
         handleChange={handleChange}
       />
       <Input
@@ -67,13 +111,7 @@ const AddProductForm = ({ onProductAdded }) => {
         handleChange={handleChange}
         min="1"
       />
-      <Input
-        label={"Expiry Date:"}
-        type="date"
-        name="expiryDate"
-        value={formData.expiryDate}
-        handleChange={handleChange}
-      />
+
       <button type="submit" className="bg-green-600 rounded-full p-2">
         Add Product
       </button>

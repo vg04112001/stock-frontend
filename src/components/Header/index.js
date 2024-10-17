@@ -13,7 +13,7 @@ const Header = () => {
     },
     {
       name: "Add New Product",
-      slug: "/add-products",
+      slug: "/add-product",
     },
   ];
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { deleteStock } from "../api/deleteStock";
 import { getStocks } from "../api/getStock";
+import DisplayTableData from "../features/DisplayTableData";
 
-const StockList = ({ reload, onEditProduct }) => {
+const StockList = ({ onEditProduct }) => {
   const [stocks, setStocks] = useState([]);
+  console.log(stocks);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortTerm, setSortTerm] = useState("");
   const [startDate, setStartDate] = useState(""); // State for start date
@@ -26,9 +28,7 @@ const StockList = ({ reload, onEditProduct }) => {
       setStocks(data);
     };
     fetchData();
-  }, [searchTerm, sortTerm, startDate, endDate, reload]); // Now listening for date range changes
-
-  console.log(sortTerm);
+  }, [searchTerm, sortTerm, startDate, endDate]); // Now listening for date range changes
 
   return (
     <div>
@@ -67,7 +67,11 @@ const StockList = ({ reload, onEditProduct }) => {
           />
         </>
       )}
-
+      <DisplayTableData
+        stocks={stocks}
+        // onEditProduct={onEditProduct}
+        handleDelete={handleDelete}
+      />
       {/* Stock table */}
       <table>
         <thead>
@@ -89,7 +93,7 @@ const StockList = ({ reload, onEditProduct }) => {
               <td>{stock.price}</td>
               <td>{new Date(stock.expiryDate).toLocaleDateString()}</td>
               <td>
-                <button onClick={() => onEditProduct(stock)}>Edit</button>
+                {/* <button onClick={() => onEditProduct(stock)}>Edit</button> */}
                 <button onClick={() => handleDelete(stock._id)}>Delete</button>
               </td>
             </tr>

@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import AddNewProduct from "./pages/AddNewProduct";
 import UpdateExistingProduct from "./pages/UpdateExistingProduct";
+import { Provider } from "react-redux";
+import store from "./redux-toolkit/store";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +25,11 @@ const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path: "/add-products",
+        path: "/add-product",
         element: <AddNewProduct />,
       },
       {
-        path: "/update-products",
+        path: "/update-product/:id",
         element: <UpdateExistingProduct />,
       },
     ],
@@ -37,7 +39,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
