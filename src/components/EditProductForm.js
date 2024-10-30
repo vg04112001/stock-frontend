@@ -3,7 +3,7 @@ import { updateStock } from "../api/updateStock";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 
-const EditProductForm = ({ product, onProductEdited }) => {
+const EditProductForm = ({ product }) => {
   const [formData, setFormData] = useState({
     name: "",
     batchNo: "",
@@ -60,7 +60,6 @@ const EditProductForm = ({ product, onProductEdited }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className="p-2 font-bold text-red-500">Edit Product</h2>
       <Input
         label={"Product Name:"}
         name="name"
@@ -128,18 +127,21 @@ const EditProductForm = ({ product, onProductEdited }) => {
         value={formData.price}
         handleChange={handleChange}
         min="1"
+        step={"0.01"}
       />
 
-      <button type="submit" className="bg-green-600 rounded-full p-2">
-        Edit Product
-      </button>
-      <button
-        onClick={() => navigate("/")}
-        type="submit"
-        className="bg-orange-600 rounded-full p-2"
-      >
-        Cancel
-      </button>
+      <div className="flex gap-x-3">
+        <button type="submit" className="bg-green-600 rounded-full p-2">
+          Edit Product
+        </button>
+        <button
+          onClick={() => navigate("/")}
+          type="submit"
+          className="bg-orange-600 rounded-full p-2"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

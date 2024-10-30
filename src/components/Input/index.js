@@ -10,6 +10,7 @@ const Input = ({
   style,
   min,
   max,
+  step,
 }) => {
   return (
     <div className="flex gap-4 mb-1">
@@ -28,6 +29,7 @@ const Input = ({
         style={style}
         min={min}
         max={max}
+        step={step}
       />
     </div>
   );

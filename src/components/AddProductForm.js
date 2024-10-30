@@ -3,7 +3,7 @@ import { addStock } from "../api/addStock"; // Import the API call
 import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 
-const AddProductForm = ({ onProductAdded }) => {
+const AddProductForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     batchNo: "",
@@ -33,7 +33,6 @@ const AddProductForm = ({ onProductAdded }) => {
     try {
       // Send form data to backend to add new product
       await addStock(formData);
-      // onProductAdded(); // Trigger reload of product list and hide the form
       navigate("/");
     } catch (error) {
       console.error("Error adding product:", error);
@@ -42,7 +41,6 @@ const AddProductForm = ({ onProductAdded }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className="p-2 font-bold text-red-500">Add New Product</h2>
       <Input
         label={"Product Name:"}
         name="name"
@@ -110,11 +108,21 @@ const AddProductForm = ({ onProductAdded }) => {
         value={formData.price}
         handleChange={handleChange}
         min="1"
+        step="0.01"
       />
 
-      <button type="submit" className="bg-green-600 rounded-full p-2">
-        Add Product
-      </button>
+      <div className="flex gap-x-3">
+        <button type="submit" className="bg-green-600 rounded-full p-2">
+          Add Product
+        </button>
+        <button
+          onClick={() => navigate("/")}
+          type="submit"
+          className="bg-orange-600 rounded-full p-2"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

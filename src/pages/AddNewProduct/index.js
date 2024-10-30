@@ -4,7 +4,9 @@ import AddProductForm from "../../components/AddProductForm";
 const AddNewProduct = () => {
   return (
     <div className="bg-green-200 h-auto">
-      <h2 className="text-center">Welome to Add New Product Screen</h2>
+      <div className="text-center font-bold text-red-500">
+        Welome to Add New Product Screen
+      </div>
       <AddProductForm />
     </div>
   );

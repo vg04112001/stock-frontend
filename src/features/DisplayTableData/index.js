@@ -1,18 +1,14 @@
 import * as React from "react";
-
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { fetchProduct } from "../../redux-toolkit/slices/productSlice";
+import { useSort } from "@table-library/react-table-library/sort";
 
-const DisplayTableData = ({ stocks, handleDelete, onEditProduct }) => {
+const DisplayTableData = ({ stocks, handleDelete }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const nodes = stocks;
-
   let data = { nodes };
 
   const theme = useTheme([
@@ -37,17 +33,39 @@ const DisplayTableData = ({ stocks, handleDelete, onEditProduct }) => {
       item.name.toLowerCase().includes(search.toLowerCase())
     ),
   };
+
+  const sort = useSort(
+    data,
+    {
+      onChange: onSortChange,
+    },
+    {
+      sortFns: {
+        "Product Name": (array) =>
+          array.sort((a, b) => a.name.localeCompare(b.name)),
+      },
+    }
+  );
+
+  function onSortChange(action, state) {
+    console.log(action, state);
+  }
+
   const COLUMNS = [
-    // { label: "PId:", renderCell: (item) => item._id },
-    { label: "Product Name", renderCell: (item) => item.name },
+    {
+      label: "Product Name",
+      renderCell: (item) => item.name,
+      sort: { sortKey: "Product Name" },
+    },
     { label: "Batch No", renderCell: (item) => item.batchNo },
     {
       label: "MFG Date",
-      renderCell: (item) => new Date(item.mfgDate).toLocaleDateString(),
+      renderCell: (item) => new Date(item.mfgDate).toLocaleDateString("en-GB"),
     },
     {
       label: "Expiry Date",
-      renderCell: (item) => new Date(item.expiryDate).toLocaleDateString(),
+      renderCell: (item) =>
+        new Date(item.expiryDate).toLocaleDateString("en-GB"),
     },
     { label: "Company", renderCell: (item) => item.company },
     {
@@ -60,7 +78,8 @@ const DisplayTableData = ({ stocks, handleDelete, onEditProduct }) => {
     },
     {
       label: "Challen Date",
-      renderCell: (item) => new Date(item.debitMemoDate).toLocaleDateString(),
+      renderCell: (item) =>
+        new Date(item.debitMemoDate).toLocaleDateString("en-GB"),
     },
     { label: "Quantity", renderCell: (item) => item.quantity },
     { label: "Price", renderCell: (item) => item.price },
@@ -72,8 +91,6 @@ const DisplayTableData = ({ stocks, handleDelete, onEditProduct }) => {
             <button
               className="bg-violet-500 text-white rounded-full w-16"
               onClick={() => {
-                dispatch(fetchProduct(item._id));
-                // onEditProduct(item);
                 navigate(`/update-product/${item._id}`);
               }}
             >
@@ -103,6 +120,7 @@ const DisplayTableData = ({ stocks, handleDelete, onEditProduct }) => {
         data={data}
         theme={theme}
         layout={{ custom: true }}
+        sort={sort}
       />
     </>
   );
