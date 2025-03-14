@@ -4,8 +4,6 @@ import { getStocks } from "../api/getStock";
 import DisplayTableData from "../features/DisplayTableData";
 import jsPDF from "jspdf";
 import "jspdf-autotable"; // Import autoTable plugin
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProduct } from "../redux-toolkit/slices/productSlice";
 
 const StockList = () => {
   const [stocks, setStocks] = useState([]);
@@ -13,9 +11,6 @@ const StockList = () => {
   const [sortTerm, setSortTerm] = useState("");
   const [startDate, setStartDate] = useState(""); // State for start date
   const [endDate, setEndDate] = useState(""); // State for end date
-
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.data);
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
