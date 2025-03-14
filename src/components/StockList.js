@@ -31,6 +31,7 @@ const StockList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getStocks(searchTerm, sortTerm, startDate, endDate);
+      console.log(data)
       setStocks(data);
     };
     fetchData();
@@ -59,12 +60,12 @@ const StockList = () => {
       const stockData = [
         stock.name,
         stock.batchNo,
-        stock.mfgDate,
-        stock.expiryDate,
+        new Date(stock.mfgDate).toISOString().split("T")[0],
+        new Date(stock.expiryDate).toISOString().split("T")[0],
         stock.company,
         stock.wholeSalerName,
-        stock.debitMemoDate,
         stock.challenNo,
+        new Date(stock.debitMemoDate).toISOString().split("T")[0],
         stock.quantity,
         stock.price,
       ];
@@ -86,21 +87,28 @@ const StockList = () => {
       },
       columnStyles: {
         0: { cellWidth: 25 }, // Name
-        1: { cellWidth: 20 }, // Category
+        1: { cellWidth: 23 }, // Category
         2: { cellWidth: 20 }, // Quantity
         3: { cellWidth: 20 }, // Price
         4: { cellWidth: 20 }, // Expiry Date
         5: { cellWidth: 20 }, // Supplier
         6: { cellWidth: 20 }, // Brand
-        7: { cellWidth: 20 }, // Batch No.
-        8: { cellWidth: 15 }, // Warehouse
+        7: { cellWidth: 23 }, // Batch No.
+        8: { cellWidth: 16 }, // Warehouse
         9: { cellWidth: 15 }, // Location
       },
     });
 
     doc.save("stock_list.pdf"); // Save the PDF
   };
-
+  const handleStartDateChange = (e) => {
+    setStartDate(new Date(e.target.value).toISOString().split("T")[0]); // Format YYYY-MM-DD
+  };
+  
+  const handleEndDateChange = (e) => {
+    setEndDate(new Date(e.target.value).toISOString().split("T")[0]);
+  };
+  
   return (
     <div>
       <div className="flex justify-between mx-2 items-center">
@@ -136,13 +144,13 @@ const StockList = () => {
           <input
             type="date"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleStartDateChange}
           />
           <label>End Date:</label>
           <input
             type="date"
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            onChange={handleEndDateChange}
           />
         </>
       )}
