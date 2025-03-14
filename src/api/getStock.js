@@ -15,7 +15,7 @@ export const getStocks = async (
     if (sort) params.append("sort", sort);
     if (startDate) params.append("startDate", startDate);
     if (endDate) params.append("endDate", endDate);
-    console.log("Fetching stocks with params:", params.toString()); 
+
     const response = await axios.get(
       `http://localhost:5000/api/stock?${params.toString()}`
     );

@@ -22,16 +22,16 @@ const EditProductForm = ({ product }) => {
   useEffect(() => {
     if (product) {
       setFormData({
-        name: product.name || "",
-        batchNo: product.batchNo || "",
-        mfgDate: product.mfgDate ? product.mfgDate.split("T")[0] : "", // Format YYYY-MM-DD
-        expiryDate: product.expiryDate ? product.expiryDate.split("T")[0] : "",
-        company: product.company || "",
-        wholeSalerName: product.wholeSalerName || "",
-        challenNo: product.challenNo || "",
-        debitMemoDate: product.debitMemoDate ? product.debitMemoDate.split("T")[0] : "",
-        quantity: product.quantity || "",
-        price: product.price || "",
+        name: product.name,
+        batchNo: product.batchNo,
+        mfgDate: product.mfgDate,
+        expiryDate: product.expiryDate,
+        company: product.company,
+        wholeSalerName: product.wholeSalerName,
+        challenNo: product.challenNo,
+        debitMemoDate: product.debitMemoDate,
+        quantity: product.quantity,
+        price: product.price,
       });
     }
   }, [product]);

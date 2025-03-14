@@ -4,7 +4,6 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { useNavigate } from "react-router-dom";
 import { useSort } from "@table-library/react-table-library/sort";
-import { usePagination } from "@table-library/react-table-library/pagination";
 
 const DisplayTableData = ({ stocks, handleDelete }) => {
   const navigate = useNavigate();
@@ -16,10 +15,10 @@ const DisplayTableData = ({ stocks, handleDelete }) => {
     getTheme(),
     {
       Table: `
-        --data-table-library_grid-template-columns:  170px repeat(4, 125px) 170px repeat(2, 125px) 90px 70px auto;
+        --data-table-library_grid-template-columns:  160px repeat(7, 125px) 90px 70px auto;
       `,
       Cell: `
-      padding : 12px;
+      padding : 10px;
       `,
     },
   ]);
@@ -49,18 +48,6 @@ const DisplayTableData = ({ stocks, handleDelete }) => {
   );
 
   function onSortChange(action, state) {
-    console.log(action, state);
-  }
-
-  const pagination = usePagination(data, {
-    state: {
-      page: 0,
-      size: 10,
-    },
-    onChange: onPaginationChange,
-  });
-
-  function onPaginationChange(action, state) {
     console.log(action, state);
   }
 
@@ -134,27 +121,7 @@ const DisplayTableData = ({ stocks, handleDelete }) => {
         theme={theme}
         layout={{ custom: true }}
         sort={sort}
-        pagination={pagination}
       />
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div>Total Pages: {pagination.state.getTotalPages(data.nodes)}</div>
-
-        <div className="flex gap-x-8">
-          Page
-          {pagination.state.getPages(data.nodes).map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              style={{
-                fontWeight: pagination.state.page === index ? "bold" : "normal",
-              }}
-              onClick={() => pagination.fns.onSetPage(index)}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      </div>
     </>
   );
 };
