@@ -17,7 +17,7 @@ export const getStocks = async (
     if (endDate) params.append("endDate", endDate);
 
     const response = await axios.get(
-      `http://localhost:5000/api/stock?${params.toString()}`
+      `https://stock-backend-wiix.onrender.com/api/stock?${params.toString()}`
     );
     return response.data;
   } catch (error) {

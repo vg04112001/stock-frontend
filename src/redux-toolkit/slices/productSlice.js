@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/stock";
+// const API_URL = "http://localhost:5000/api/stock";
+const API_URL = "https://stock-backend-wiix.onrender.com/api/stock";
+
 
 // Function to get a single product by ID
 export const fetchProduct = createAsyncThunk("fetchProducts", async (id) => {
